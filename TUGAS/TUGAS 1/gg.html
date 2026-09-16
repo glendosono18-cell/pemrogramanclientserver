@@ -10,31 +10,62 @@
     <div class="app-shell">
       <header class="topbar">
         <div class="brand"><span class="logo">SI</span><div><strong>Siakad</strong><small>Mahasiswa</small></div></div>
-
-        <div class="user-box"><button class="notif">🔔</button><div class="user-chip"><span class="avatar">M</span><span>Mahasiswa</span></div></div>
       </header>
 
       <main class="content">
-        <section class="hero">
-          <div><p class="eyebrow">Selamat datang</p><h1>Glen Dosono</h1><p class="subtitle">2025 / Teknik Komputer</p></div>
-
-          <div class="status">
-            <span>Status</span>
-            <strong>Aktif</strong>
-            <small>Semester 3</small>
+        <section class="welcome-panel">
+          <div class="welcome-copy">
+            <p class="eyebrow">Selamat datang</p>
+            <h1>Portal akademik mahasiswa</h1>
+            <p class="subtitle">Akses informasi perkuliahan, jadwal, dan layanan akademik dengan mudah.</p>
           </div>
         </section>
 
-        <section class="stats">
-          <article class="card highlight"><span>IPK</span><strong>3.84</strong><small>Semester ini</small></article>
-          <article class="card"><span>SKS</span><strong>21</strong><small>Telah diambil</small></article>
-          <article class="card"><span>Kehadiran</span><strong>96%</strong><small>Rata-rata</small></article>
+        <section class="info-grid" aria-label="Informasi layanan">
+          <article class="info-card"><h2>Jadwal kuliah</h2><p>Lihat jadwal perkuliahan dengan cepat.</p></article>
+          <article class="info-card"><h2>Layanan akademik</h2><p>Kelola kebutuhan akademik Anda setelah masuk.</p></article>
+          <article class="info-card"><h2>Informasi kampus</h2><p>Dapatkan informasi terbaru dari kampus.</p></article>
         </section>
-
-        <nav class="main-nav" aria-label="Main navigation">
-          <a href="#" class="active">Beranda</a><a href="#">Akademik</a><a href="#">KRS</a><a href="#">Jadwal</a><a href="#">Nilai</a><a href="#">Profil</a>
-        </nav>
       </main>
+
+      <nav class="main-nav" aria-label="Navigasi sebelum login">
+        <a href="#beranda" class="active">Beranda</a>
+        <a href="#akademik">Akademik</a>
+        <a href="#bantuan">Bantuan</a>
+        <button class="login-trigger" id="loginTrigger" type="button">Login</button>
+      </nav>
     </div>
+
+    <div class="modal-backdrop" id="loginModal" hidden>
+      <section class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+        <button class="modal-close" id="closeLogin" type="button" aria-label="Tutup menu masuk">&times;</button>
+        <div class="login-copy">
+          <h1 id="login-title"></h1>
+        </div>
+
+        <form class="login-form" id="loginForm" action="#" method="post">
+          <label for="username">NIM atau email</label>
+          <input id="username" name="username" type="text" autocomplete="username" placeholder="Masukkan NIM atau email" required />
+
+          <label for="password">Kata sandi</label>
+          <div class="password-field">
+            <input id="password" name="password" type="text" autocomplete="current-password" placeholder="Masukkan kata sandi" required />
+            <button class="password-toggle" id="passwordToggle" type="button" aria-label="Tampilkan kata sandi" aria-pressed="false">
+              <svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path class="eye-shape" d="M2.5 12s3.5-5 9.5-5 9.5 5 9.5 5-3.5 5-9.5 5-9.5-5-9.5-5Z" />
+                <circle class="eye-pupil" cx="12" cy="12" r="2.5" />
+                <path class="eye-slash" d="M4 4l16 16" />
+              </svg>
+            </button>
+          </div>
+
+          <button class="submit-login" type="submit">Login</button>
+          <a class="forgot-password" href="#">Lupa kata sandi?</a>
+          <p class="login-message" id="loginMessage" role="status"></p>
+        </form>
+      </section>
+    </div>
+
+    <script src="java.js"></script>
   </body>
 </html>
