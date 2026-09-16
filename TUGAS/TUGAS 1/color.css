@@ -14,7 +14,7 @@ body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify
 
 .app-shell { width: min(1250px, 96vw); background: rgba(255,255,255,0.82); border: 1px solid rgba(255,255,255,0.9); border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); }
 
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 24px 30px 12px; background: linear-gradient(90deg, #fff, #f3faf6); border-bottom: 1px solid var(--line); }
+.topbar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: flex-start; gap: 18px; padding: 22px 28px 0; background: transparent; border: 0; }
 
 .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
