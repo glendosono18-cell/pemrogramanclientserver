@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Daftar Mahasiswa | Sistem Absensi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="color.css" />
+  </head>
+  <body class="login-body">
+    <main class="registration-page">
+      <section class="login-modal registration-card">
+        <div class="login-copy">
+          <p class="eyebrow">Pendaftaran mandiri</p>
+          <h1>Daftar Mahasiswa</h1>
+          <p class="modal-subtitle">Langkah 1: identitas akun · Langkah 2: rekam wajah</p>
+        </div>
+
+        <form class="login-form" id="registrationForm">
+          <div id="identityStep">
+            <label for="nim">NIM</label>
+            <input id="nim" name="nim" type="text" maxlength="30" required />
+            <label for="nama_lengkap">Nama lengkap</label>
+            <input id="nama_lengkap" name="nama_lengkap" type="text" maxlength="150" required />
+            <label for="prodi">Program studi</label>
+            <input id="prodi" name="prodi" type="text" maxlength="100" required />
+            <label for="semester">Semester</label>
+            <input id="semester" name="semester" type="number" min="1" max="14" required />
+            <label for="provinsi">Provinsi asal</label>
+            <select id="provinsi" name="provinsi" required disabled><option value="">Memuat provinsi...</option></select>
+            <label for="kota">Kota / Kabupaten asal</label>
+            <select id="kota" name="kota" required disabled><option value="">Pilih kota/kabupaten</option></select>
+            <label for="kecamatan">Kecamatan asal</label>
+            <select id="kecamatan" name="kecamatan" required disabled><option value="">Pilih kecamatan</option></select>
+            <label for="kelurahan">Kelurahan / Desa asal</label>
+            <select id="kelurahan" name="kelurahan" required disabled><option value="">Pilih kelurahan/desa</option></select>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" maxlength="100" required />
+            <label for="password">Kata sandi</label>
+            <input id="password" name="password" type="password" minlength="8" maxlength="255" required />
+            <label class="remember-row">
+              <input id="consent" name="consent" type="checkbox" required />
+              <span>Saya menyetujui penggunaan data wajah untuk absensi.</span>
+            </label>
+            <button id="continueFace" type="button">Lanjutkan rekam wajah</button>
+          </div>
+
+          <div id="faceStep" hidden>
+            <div class="camera-frame">
+              <video id="registrationVideo" autoplay muted playsinline></video>
+            </div>
+            <p id="faceInstruction" class="login-message">Memuat pemodelan wajah...</p>
+            <div class="face-poses">
+              <span id="pose-depan" class="ak-badge">1. Hadap depan</span>
+              <span id="pose-kiri" class="ak-badge">2. Sedikit kiri</span>
+              <span id="pose-kanan" class="ak-badge">3. Sedikit kanan</span>
+            </div>
+            <button id="captureFace" type="button" disabled>Mulai rekam wajah</button>
+            <button id="backIdentity" class="ak-secondary-button" type="button">Kembali</button>
+          </div>
+          <p class="login-message" id="registrationMessage" role="status"></p>
+        </form>
+        <a class="forgot-password" href="index.html">Kembali ke halaman masuk</a>
+      </section>
+    </main>
+    <script src="assets/vendor/face-api.js"></script>
+    <script src="assets/wilayah.js"></script>
+    <script src="daftar.js"></script>
+  </body>
+</html>

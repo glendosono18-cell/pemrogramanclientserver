@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Dashboard Dosen | Sistem Absensi</title>
+    <link rel="stylesheet" href="../color.css" />
+    <script src="../assets/vendor/html5-qrcode.min.js" defer></script>
+    <script src="../assets/vendor/face-api.js" defer></script>
+    <script src="dashboard.js" defer></script>
+    <script src="menu.js" defer></script>
+    <script src="modul_dosen.js" defer></script>
+  </head>
+  <body data-role="dosen">
+    <div class="app-shell has-sidebar">
+      <aside class="sidebar">
+        <div class="brand"><span class="logo">A</span><div><strong>Absensi</strong><small>Portal Kehadiran</small></div></div>
+        <nav class="sidebar-nav" aria-label="Navigasi dosen">
+          <a href="#dashboard" class="active"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z" /></svg></span>Dashboard</a>
+          <a href="#jadwal-mengajar"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg></span>Jadwal Mengajar</a>
+          <a href="#absensi"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="m8 12 3 3 5-6" /></svg></span>Absensi</a>
+          <a href="#rekap"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V4M4 20h17M8 16l4-5 3 2 5-7" /></svg></span>Rekap Presensi</a>
+          <a href="#profil"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M5 21c1-5 3-7 7-7s6 2 7 7" /></svg></span>Profil</a>
+          <a href="#informasi"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5" /></svg></span>Pengumuman</a>
+        </nav>
+        <div class="sidebar-user"><span class="avatar" aria-hidden="true">D</span><div class="sidebar-user-copy"><strong id="profile-name">Dosen</strong><small id="profile-info">Memuat profil...</small></div><button class="nav-logout" type="button" data-logout>Keluar</button></div>
+      </aside>
+      <div class="dashboard-main">
+        <main class="content" id="dashboard">
+          <div class="dashboard-view" data-view="dashboard">
+            <section class="hero"><div><p class="eyebrow">Portal dosen</p><h1>Selamat datang</h1><p class="profile-status" id="profile-status" role="status"></p></div><div class="status"><span>Akses</span><strong>Dosen</strong><small>Sistem Absensi</small></div></section>
+            <section class="stats"><article class="card highlight"><span>Kelas hari ini</span><strong>—</strong><small>Jadwal mengajar</small></article><article class="card"><span>Sesi dibuka</span><strong>—</strong><small>Absensi aktif</small></article></section>
+            <section class="info-grid">
+              <article class="info-card ak-page-wide">
+                <h2>Absensi Aktif dan Dapat Diedit</h2>
+                <p id="lecturer-recent-state" class="ak-state" role="status">Memuat sesi...</p>
+                <div class="ak-table-wrap"><table class="ak-table"><thead><tr>
+                  <th>Mata Kuliah</th><th>Kelas</th><th>Pertemuan</th><th>Tanggal/jam</th>
+                  <th>Status</th><th>Hadir/Total</th><th>Aksi</th>
+                </tr></thead><tbody id="lecturer-recent-list"><tr><td colspan="7">Memuat...</td></tr></tbody></table></div>
+              </article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="jadwal-mengajar" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Jadwal Mengajar</h2>
+              <div class="ak-filter"><label>Semester<select id="lecturer-academic-year"></select></label></div>
+              <nav id="lecturer-week-days" class="ak-week-tabs" aria-label="Pilih hari jadwal pekan ini"></nav>
+              <div id="jadwal-dosen-list"><p class="ak-state" role="status">Memuat jadwal...</p></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="absensi" hidden>
+            <section class="info-grid">
+              <article class="info-card ak-page-wide">
+                <h2>Absensi</h2>
+                <div class="ak-filter ak-attendance-picker">
+                  <label>Semester<select id="dosen-attendance-year"></select></label>
+                  <label>Mata Kuliah<select id="dosen-attendance-course" disabled><option value="">Pilih mata kuliah</option></select></label>
+                  <label>Kelas<select id="dosen-attendance-class" disabled><option value="">Pilih kelas</option></select></label>
+                  <label>Jadwal/Tanggal pertemuan<select id="dosen-attendance-date" disabled><option value="">Pilih jadwal/tanggal</option></select></label>
+                </div>
+                <p id="dosen-schedule-state" class="ak-state" role="status">Pilih semester, mata kuliah, kelas, dan tanggal pertemuan.</p>
+                <button id="activate-attendance" class="ak-secondary-button" type="button" disabled>Aktifkan Absensi</button>
+              </article>
+              <article class="info-card" id="scan-panel" hidden>
+                <h3>Pindai QR Mahasiswa</h3>
+                <div id="qr-reader" class="camera-frame"></div>
+                <div id="face-verification" class="camera-frame" hidden><video id="face-video" autoplay muted playsinline></video></div>
+                <p id="scan-state" class="ak-state" role="status" aria-live="polite"></p>
+                <button id="scan-face-button" class="ak-secondary-button" type="button" hidden>Verifikasi Wajah</button>
+                <button id="close-attendance" class="ak-secondary-button" type="button">Tutup Absensi</button>
+              </article>
+              <article class="info-card" id="attendance-panel" hidden>
+                <h3>Sudah Absen</h3>
+                <p id="attendance-count" class="ak-state"></p>
+                <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>NIM</th><th>Nama</th><th>Status</th><th>Waktu</th></tr></thead><tbody id="attendance-list"></tbody></table></div>
+              </article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="rekap" hidden>
+            <section class="info-grid">
+              <article class="info-card ak-page-wide">
+                <h2>Rekap Presensi</h2>
+                <div class="ak-filter">
+                  <label>Kelas
+                    <select id="rekap-kelas"><option value="">Pilih kelas</option></select>
+                  </label>
+                  <label>Pertemuan
+                    <select id="rekap-pertemuan"><option value="">Pilih pertemuan</option></select>
+                  </label>
+                  <button id="rekap-export" class="ak-secondary-button" type="button" disabled>Ekspor CSV</button>
+                </div>
+                <p id="rekap-state" class="ak-state" role="status" aria-live="polite">Pilih kelas dan pertemuan.</p>
+                <div class="ak-table-wrap">
+                  <table class="ak-table">
+                    <thead><tr><th>NIM</th><th>Nama</th><th>Status</th><th>Metode</th><th>Waktu Scan</th><th>Koreksi</th></tr></thead>
+                    <tbody id="rekap-list"><tr><td colspan="6" class="ak-state-cell">Pilih pertemuan.</td></tr></tbody>
+                  </table>
+                </div>
+              </article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="profil" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Profil Dosen</h2>
+              <p id="dosen-profil-state" class="ak-state" role="status"></p>
+              <div class="ak-biodata-card">
+                <div id="dosen-profil-avatar" class="ak-biodata-avatar" aria-hidden="true">D</div>
+                <dl id="profil-dosen" class="ak-definition-list ak-biodata-details"></dl>
+              </div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="informasi" hidden><section class="info-grid"><article class="info-card" style="grid-column:1/-1"><h2>Pengumuman</h2><p>Pengumuman dosen akan tampil di sini.</p></article></section></div>
+        </main>
+      </div>
+    </div>
+    <button id="dosen-chat-toggle" class="ak-chat-toggle" type="button" aria-label="Buka Chat Admin" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg><span id="dosen-chat-badge" class="ak-chat-badge" hidden>0</span>
+    </button>
+    <section id="dosen-chat-panel" class="ak-chat-panel" aria-label="Chat Admin" hidden>
+      <header class="ak-chat-header"><div><strong>Chat Admin</strong><small>Konsultasi sistem dengan admin</small></div><button id="dosen-chat-close" type="button" aria-label="Tutup Chat Admin">×</button></header>
+      <div id="dosen-chat-messages" class="ak-chat-messages" aria-live="polite"></div>
+      <form id="dosen-chat-form" class="ak-chat-form"><label class="ak-chat-attach" for="dosen-chat-file" title="Lampirkan file atau screenshot" aria-label="Lampirkan file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><input id="dosen-chat-file" name="lampiran" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip" class="ak-sr-only" /></label><label class="ak-sr-only" for="dosen-chat-input">Tulis pesan untuk admin</label><textarea id="dosen-chat-input" maxlength="1000" rows="2" placeholder="Tulis pesan..."></textarea><button type="submit">Kirim</button></form>
+      <div id="dosen-chat-file-preview" class="ak-chat-file-preview" hidden><span id="dosen-chat-file-name"></span><button id="dosen-chat-file-clear" type="button" aria-label="Hapus lampiran">×</button></div>
+      <p id="dosen-chat-state" class="ak-chat-state" role="status"></p>
+    </section>
+  </body>
+</html>
