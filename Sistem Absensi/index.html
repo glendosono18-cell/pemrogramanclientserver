@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Masuk | Sistem Absensi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="color.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-page">
+      <aside class="login-brand-panel">
+        <div class="brand login-brand">
+          <span class="logo">A</span>
+          <div><strong>Absensi</strong><small>Portal Kehadiran</small></div>
+        </div>
+        <div class="login-brand-copy">
+          <p class="eyebrow">Portal absensi</p>
+          <h1>Kehadiran kelas lebih cepat dan akurat.</h1>
+          <p>Masuk menggunakan akun mahasiswa, dosen, atau admin.</p>
+        </div>
+      </aside>
+
+      <main class="login-content-panel">
+        <p class="registration-banner" id="registrationBanner" role="status" aria-live="polite" hidden></p>
+        <section class="login-intro" aria-labelledby="login-page-title">
+          <p class="eyebrow">Selamat datang</p>
+          <h2 id="login-page-title">Masuk ke Sistem Absensi</h2>
+          <p>Pilih jenis akun untuk melanjutkan.</p>
+          <button class="submit-login login-trigger" id="loginTrigger" type="button">Pilih peran untuk masuk</button>
+        </section>
+
+        <div class="role-backdrop login-overlay" id="roleSelection" hidden>
+          <section class="role-dialog" role="dialog" aria-modal="true" aria-labelledby="role-title">
+            <button class="modal-close role-close" id="closeRoles" type="button" aria-label="Tutup pilihan masuk">&times;</button>
+            <div class="role-heading"><h1 id="role-title">Masuk Sebagai Mahasiswa, Dosen, atau Admin?</h1></div>
+            <div class="role-grid">
+              <button class="role-card" type="button" data-role="mahasiswa">
+                <span class="role-avatar" aria-hidden="true">
+                  <svg viewBox="0 0 150 150" focusable="false">
+                    <path fill="#1B4F9C" d="M17 150c2-29 17-44 43-51h30c26 7 41 22 43 51H17Z" />
+                    <path fill="#F4B79A" d="M64 88h22v22H64z" />
+                    <ellipse cx="75" cy="58" rx="31" ry="37" fill="#F4B79A" />
+                    <path fill="#12284A" d="M44 57c-2-26 10-42 32-42 22 0 34 15 31 39-7-3-12-10-15-17-10 10-27 15-48 14v6Z" />
+                    <path fill="#12284A" d="M48 54c-5 19 1 36 9 44-1-12-1-21 2-29l-11-15Zm54-5c5 18 2 38-7 49 1-13 0-23-4-31l11-18Z" />
+                    <circle cx="64" cy="61" r="2" fill="#12284A" />
+                    <circle cx="86" cy="61" r="2" fill="#12284A" />
+                    <path d="M68 76c4 3 10 3 14 0" fill="none" stroke="#9D5E4E" stroke-linecap="round" stroke-width="2" />
+                    <path fill="#fff" d="m55 99 20 20 20-20 8 6-16 20h-24l-16-20z" />
+                    <path fill="#24508F" d="m55 99 20 20-15 17-15-29zm40 0-20 20 15 17 15-29z" />
+                  </svg>
+                </span>
+                <strong>Mahasiswa</strong>
+                <span class="role-description">Akses QR pribadi, kelas, dan riwayat kehadiran.</span>
+                <span class="role-link">Masuk <span aria-hidden="true">&rarr;</span></span>
+              </button>
+              <button class="role-card" type="button" data-role="dosen">
+                <span class="role-avatar" aria-hidden="true">
+                  <svg viewBox="0 0 150 150" focusable="false">
+                    <path fill="#12284A" d="M39 53c0-30 14-45 37-45s37 17 37 46v72H39z" />
+                    <path fill="#1B4F9C" d="M14 150c2-29 17-44 43-51h36c26 7 41 22 43 51H14Z" />
+                    <path fill="#F4B79A" d="M65 89h20v22H65z" />
+                    <ellipse cx="75" cy="58" rx="29" ry="36" fill="#F4B79A" />
+                    <path fill="#12284A" d="M46 55c0-27 10-41 31-41 21 0 31 15 29 38-7-2-12-8-16-15-9 10-24 15-44 14v4Z" />
+                    <path fill="#12284A" d="M47 57c-4 22 1 41 12 51l-2-37zm56-7c5 23 0 45-12 58l3-40z" />
+                    <circle cx="65" cy="61" r="2" fill="#12284A" />
+                    <circle cx="85" cy="61" r="2" fill="#12284A" />
+                    <path d="M68 76c4 3 10 3 14 0" fill="none" stroke="#9D5E4E" stroke-linecap="round" stroke-width="2" />
+                    <path fill="#fff" d="m58 99 17 17 17-17 8 6-13 18H63l-13-18z" />
+                    <path fill="#24508F" d="m58 99 17 17-14 17-18-28zm34 0-17 17 14 17 18-28z" />
+                  </svg>
+                </span>
+                <strong>Dosen</strong>
+                <span class="role-description">Kelola sesi absensi dan pantau kehadiran kelas.</span>
+                <span class="role-link">Masuk <span aria-hidden="true">&rarr;</span></span>
+              </button>
+              <button class="role-card" type="button" data-role="admin">
+                <span class="role-avatar role-avatar-admin" aria-hidden="true">
+                  <svg viewBox="0 0 150 150" focusable="false">
+                    <path fill="#12284A" d="M38 57c0-32 14-47 37-47s38 17 38 49v68H38z" />
+                    <path fill="#1B4F9C" d="M14 150c2-29 17-44 43-51h36c26 7 41 22 43 51H14Z" />
+                    <path fill="#F4B79A" d="M65 89h20v22H65z" />
+                    <ellipse cx="75" cy="59" rx="29" ry="36" fill="#F4B79A" />
+                    <path fill="#12284A" d="M46 56c0-27 10-42 31-42 22 0 32 16 29 40-7-2-13-9-17-16-9 10-24 15-43 14v4Z" />
+                    <path fill="#12284A" d="M47 58c-4 21 1 40 12 51l-2-37zm56-7c5 23 0 44-12 57l3-39z" />
+                    <circle cx="65" cy="62" r="2" fill="#12284A" />
+                    <circle cx="85" cy="62" r="2" fill="#12284A" />
+                    <path d="M68 77c4 3 10 3 14 0" fill="none" stroke="#9D5E4E" stroke-linecap="round" stroke-width="2" />
+                    <path fill="none" stroke="#F2B134" stroke-linecap="round" stroke-width="5" d="M45 55V44a30 30 0 0 1 60 0v11" />
+                    <rect x="41" y="51" width="11" height="23" rx="5" fill="#F2B134" />
+                    <rect x="98" y="51" width="11" height="23" rx="5" fill="#F2B134" />
+                    <path fill="none" stroke="#12284A" stroke-linecap="round" stroke-width="3" d="M103 69v8c0 8-7 11-16 11" />
+                    <circle cx="85" cy="88" r="3" fill="#F2B134" />
+                    <path fill="#fff" d="m58 99 17 17 17-17 8 6-13 18H63l-13-18z" />
+                  </svg>
+                </span>
+                <strong>Admin</strong>
+                <span class="role-description">Kelola akun, data akademik, dan pengaturan sistem.</span>
+                <span class="role-link">Masuk <span aria-hidden="true">&rarr;</span></span>
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <div class="modal-backdrop login-overlay" id="loginModal" hidden>
+          <section class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+            <button class="modal-close" id="closeLogin" type="button" aria-label="Kembali memilih peran">&times;</button>
+            <div class="login-copy">
+              <h1 id="login-title"></h1>
+              <p class="modal-subtitle">Masukkan identitas dan kata sandi untuk melanjutkan.</p>
+            </div>
+            <form class="login-form" id="loginForm">
+              <input id="role" name="role" type="hidden" value="" />
+              <label id="usernameLabel" for="username">NIM atau username</label>
+              <input id="username" name="username" type="text" autocomplete="username" required />
+              <label for="password">Kata sandi</label>
+              <div class="password-field">
+                <input id="password" name="password" type="password" autocomplete="current-password" required />
+                <button class="password-toggle" id="passwordToggle" type="button" aria-label="Tampilkan kata sandi" aria-pressed="false">&bull;</button>
+              </div>
+              <button id="submitLogin" type="submit">Masuk</button>
+              <p class="login-message" id="loginMessage" role="status"></p>
+            </form>
+            <div class="login-register-divider" id="registrationDivider" hidden><span>atau</span></div>
+            <a class="login-register-button" id="registrationLink" href="daftar.html" hidden></a>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="java.js"></script>
+  </body>
+</html>

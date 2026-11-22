@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Dashboard Mahasiswa | Sistem Absensi</title>
+    <link rel="stylesheet" href="../color.css" />
+    <script src="../assets/vendor/qrcode.min.js" defer></script>
+    <script src="dashboard.js" defer></script>
+    <script src="menu.js" defer></script>
+    <script src="modul_mahasiswa.js" defer></script>
+  </head>
+  <body data-role="mahasiswa">
+    <div class="app-shell has-sidebar">
+      <aside class="sidebar">
+        <div class="brand"><span class="logo">A</span><div><strong>Absensi</strong><small>Portal Kehadiran</small></div></div>
+        <nav class="sidebar-nav" aria-label="Navigasi mahasiswa">
+          <a href="#dashboard" class="active"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z" /></svg></span>Dashboard</a>
+          <a href="#kelas-saya"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg></span>Jadwal Kuliah &amp; Presensi</a>
+          <a href="#riwayat"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V4M4 20h17M8 16l4-5 3 2 5-7" /></svg></span>Riwayat Presensi</a>
+          <a href="#qr-saya"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" /><rect x="15" y="3" width="6" height="6" /><rect x="3" y="15" width="6" height="6" /><path d="M15 15h3v3h3M15 21h3" /></svg></span>QR Saya</a>
+          <a href="#data-wajah"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M5 21c1-5 3-7 7-7s6 2 7 7" /></svg></span>Data Wajah</a>
+          <a href="#biodata"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" /></svg></span>Biodata Mahasiswa</a>
+          <a href="#informasi"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5" /></svg></span>Informasi</a>
+          <a href="#bantuan"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.5 2.5 0 1 1 3 2.45c-.5.17-.5.55-.5 1.05M12 16h.01" /></svg></span>Butuh Bantuan?</a>
+        </nav>
+        <div class="sidebar-user">
+          <span class="avatar" aria-hidden="true">M</span>
+          <div class="sidebar-user-copy"><strong id="profile-name">Mahasiswa</strong><small id="profile-info">Memuat profil...</small></div>
+          <button class="nav-logout" type="button" data-logout>Keluar</button>
+        </div>
+      </aside>
+
+      <div class="dashboard-main">
+        <main class="content" id="dashboard">
+          <div class="dashboard-view" data-view="dashboard">
+            <section class="hero"><div><p class="eyebrow">Portal mahasiswa</p><h1>Selamat datang</h1><p class="profile-status" id="profile-status" role="status"></p></div><div class="status"><span>Akses</span><strong>Mahasiswa</strong><small>Sistem Absensi</small></div></section>
+            <section class="stats" aria-label="Ringkasan kehadiran">
+              <article class="card highlight ak-attendance-card"><span>Kehadiran</span><div id="ringkasan-kehadiran" class="ak-attendance-overview"><span>Memuat...</span></div><small>Persentase hadir</small></article>
+              <article class="card"><span>Kelas saya</span><strong id="ringkasan-kelas">—</strong><small>Jumlah kelas aktif</small></article>
+              <article class="card"><span>Data wajah</span><strong id="ringkasan-wajah">—</strong><small>Status perekaman</small></article>
+              <article class="card" id="biodata-ringkas"><span>Biodata</span><strong>Memuat...</strong></article>
+            </section>
+            <section class="info-grid">
+              <article class="info-card ak-page-wide">
+                <div class="ak-section-heading"><div><h2>Kehadiran per Mata Kuliah</h2><p>Persentase dihitung dari pertemuan yang sudah ditutup.</p></div>
+                  <label class="ak-attendance-year">Semester<select id="attendance-year"></select></label>
+                </div>
+                <p id="attendance-state" class="ak-state" role="status">Memuat statistik...</p>
+                <div id="attendance-courses" class="ak-attendance-courses"></div>
+              </article>
+            </section>
+          </div>
+
+          <div class="dashboard-view" data-view="kelas-saya" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h1 class="ak-schedule-title">Jadwal Kuliah &amp; Presensi</h1>
+              <p class="ak-schedule-subtitle">Daftar Jadwal Kuliah dan Presensi Perkuliahan</p>
+              <div class="ak-filter"><label>Semester<select id="student-academic-year"></select></label></div>
+              <div id="kelas-saya-list"><p class="ak-state" role="status">Memuat jadwal...</p></div>
+            </article></section>
+          </div>
+          <dialog id="absence-dialog" class="ak-dialog" aria-labelledby="absence-dialog-title">
+            <div class="ak-dialog-heading"><h2 id="absence-dialog-title">Riwayat ketidakhadiran</h2><button id="absence-dialog-close" class="ak-secondary-button" type="button">Tutup</button></div>
+            <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>Tanggal/jam buka</th><th>Status</th><th>Metode</th></tr></thead><tbody id="absence-dialog-list"></tbody></table></div>
+          </dialog>
+          <div class="dashboard-view" data-view="riwayat" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Riwayat Presensi</h2>
+              <div class="ak-filter">
+                <label>Semester<select id="history-year"><option value="">Pilih semester</option></select></label>
+                <label>Mata Kuliah<select id="history-course" disabled><option value="">Pilih mata kuliah</option></select></label>
+              </div>
+              <div id="history-summary" class="ak-history-summary" hidden></div>
+              <p id="history-state" class="ak-state" role="status">Pilih semester dan mata kuliah.</p>
+              <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>Pertemuan ke-</th><th>Tanggal/jam</th><th>Status</th><th>Metode</th><th>Waktu scan</th></tr></thead><tbody id="riwayat-list"><tr><td colspan="5">Pilih semester dan mata kuliah.</td></tr></tbody></table></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="qr-saya" hidden>
+            <section class="info-grid">
+              <article class="info-card qr-profile-card">
+                <p class="eyebrow">Identitas absensi</p>
+                <h2>QR Saya</h2>
+                <h3 id="qr-nama">Memuat nama...</h3>
+                <p id="qr-nim" class="ak-state">Memuat NIM...</p>
+                <div class="qr-stage">
+                  <div id="qr-code" class="qr-code" aria-label="Kode QR absensi"></div>
+                </div>
+                <p id="qr-state" class="ak-state" role="status" aria-live="polite">Memuat QR...</p>
+                <button id="qr-download" class="ak-secondary-button" type="button" disabled>Unduh PNG</button>
+              </article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="data-wajah" hidden><section class="info-grid"><article class="info-card ak-page-wide"><h2>Data Wajah</h2><p id="data-wajah-state" class="ak-state" role="status">Memuat status wajah...</p><p>Gambar asli tidak disimpan; sistem hanya menyimpan descriptor wajah untuk verifikasi.</p><div id="data-wajah-list" class="ak-face-poses"></div></article></section></div>
+          <div class="dashboard-view" data-view="biodata" hidden><section class="info-grid"><article class="info-card ak-page-wide"><h2>Biodata Mahasiswa</h2><div class="ak-biodata-card"><div class="ak-biodata-photo-col"><div id="biodata-avatar" class="ak-biodata-avatar" aria-hidden="true">M</div><form id="biodata-photo-form" class="ak-photo-upload-form"><label class="ak-secondary-button ak-photo-upload-label" for="biodata-photo-input">Pilih Foto Profil</label><input id="biodata-photo-input" name="foto_profil" type="file" accept="image/jpeg,image/png,image/webp" class="ak-sr-only" /><button id="biodata-photo-submit" class="ak-secondary-button" type="submit" hidden>Simpan Foto</button><p id="biodata-photo-state" class="ak-state" role="status"></p></form></div><dl id="biodata-mahasiswa" class="ak-definition-list ak-biodata-details"></dl></div></article></section></div>
+          <div class="dashboard-view" data-view="informasi" hidden><section class="info-grid"><article class="info-card" style="grid-column:1/-1"><h2>Informasi</h2><p>Pengumuman kampus akan tampil di sini.</p></article></section></div>
+          <div class="dashboard-view" data-view="bantuan" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Pusat Bantuan</h2>
+              <label class="ak-faq-search">Cari pertanyaan<input id="faq-search" type="search" placeholder="Ketik kata kunci..." /></label>
+              <div id="faq-list" class="ak-faq-list">
+                <details class="ak-faq"><summary>Bagaimana absensi QR dan QR + Wajah bekerja?</summary><p>Dosen membuka sesi. Tampilkan QR Saya untuk dipindai; pada mode QR + Wajah, arahkan wajah ke kamera untuk verifikasi tambahan.</p></details>
+                <details class="ak-faq"><summary>Bagaimana menampilkan atau mengunduh QR?</summary><p>Buka menu QR Saya. QR tampil di layar dan dapat disimpan melalui tombol Unduh PNG.</p></details>
+                <details class="ak-faq"><summary>Mengapa wajah tidak cocok?</summary><p>Pastikan wajah terlihat jelas, pencahayaan cukup, dan kamera mengarah ke wajah. Jika tetap gagal, hubungi admin.</p></details>
+                <details class="ak-faq"><summary>Mengapa QR tidak dikenali?</summary><p>Pastikan Anda menampilkan QR dari akun yang benar dan dosen sedang membuka sesi absensi.</p></details>
+                <details class="ak-faq"><summary>Mengapa absensi ganda ditolak?</summary><p>Satu mahasiswa hanya dapat tercatat hadir satu kali pada setiap pertemuan.</p></details>
+                <details class="ak-faq"><summary>Apa arti status Hadir, Terlambat, Izin, Sakit, dan Alpa?</summary><p>Hadir dan Terlambat dicatat dari waktu pemindaian dan batas tepat waktu sesi. Izin, Sakit, dan Alpa adalah status yang dapat ditetapkan pada rekap.</p></details>
+                <details class="ak-faq"><summary>Bagaimana melihat persentase dan riwayat kehadiran?</summary><p>Ringkasan dan persentase per mata kuliah tersedia di Dashboard. Detail pertemuan dapat dilihat pada menu Riwayat Presensi.</p></details>
+                <details class="ak-faq"><summary>Saya lupa kata sandi, apa yang harus dilakukan?</summary><p>Hubungi admin untuk bantuan pemulihan akun. Sistem belum menyediakan reset kata sandi mandiri.</p></details>
+                <details class="ak-faq"><summary>Bagaimana memperbaiki data biodata atau semester yang salah?</summary><p>Hubungi admin agar data akun diperiksa dan diperbarui.</p></details>
+                <details class="ak-faq"><summary>Mengapa mata kuliah saya tidak terlihat?</summary><p>Pastikan semester dan tahun akademik yang dipilih benar. Jika masih belum tampil, minta admin memeriksa pendaftaran kelas Anda.</p></details>
+                <details class="ak-faq"><summary>Bagaimana menghubungi admin?</summary><p>Gunakan tombol Chat Admin di pojok kanan bawah untuk mengirim pesan.</p></details>
+              </div>
+            </article></section>
+          </div>
+        </main>
+      </div>
+    </div>
+    <button id="student-chat-toggle" class="ak-chat-toggle" type="button" aria-label="Buka Chat Admin" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg><span id="student-chat-badge" class="ak-chat-badge" hidden>0</span>
+    </button>
+    <section id="student-chat-panel" class="ak-chat-panel" aria-label="Chat Admin" hidden>
+      <header class="ak-chat-header"><div><strong>Chat Admin</strong><small>Balasan akan muncul di sini</small></div><button id="student-chat-close" type="button" aria-label="Tutup Chat Admin">×</button></header>
+      <div id="student-chat-messages" class="ak-chat-messages" aria-live="polite"></div>
+      <form id="student-chat-form" class="ak-chat-form"><label class="ak-chat-attach" for="student-chat-file" title="Lampirkan file atau screenshot" aria-label="Lampirkan file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><input id="student-chat-file" name="lampiran" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip" class="ak-sr-only" /></label><label class="ak-sr-only" for="student-chat-input">Tulis pesan untuk admin</label><textarea id="student-chat-input" maxlength="1000" rows="2" placeholder="Tulis pesan..."></textarea><button type="submit">Kirim</button></form>
+      <div id="student-chat-file-preview" class="ak-chat-file-preview" hidden><span id="student-chat-file-name"></span><button id="student-chat-file-clear" type="button" aria-label="Hapus lampiran">×</button></div>
+      <p id="student-chat-state" class="ak-chat-state" role="status"></p>
+    </section>
+  </body>
+</html>

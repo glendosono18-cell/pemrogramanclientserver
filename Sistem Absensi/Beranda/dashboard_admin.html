@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Dashboard Admin | Sistem Absensi</title>
+    <link rel="stylesheet" href="../color.css" />
+    <script src="dashboard.js" defer></script>
+    <script src="menu.js" defer></script>
+    <script src="../assets/wilayah.js" defer></script>
+    <script src="modul_admin.js" defer></script>
+  </head>
+  <body data-role="admin">
+    <div class="app-shell has-sidebar">
+      <aside class="sidebar">
+        <div class="brand"><span class="logo">A</span><div><strong>Absensi</strong><small>Portal Kehadiran</small></div></div>
+        <nav class="sidebar-nav" aria-label="Navigasi admin">
+          <a href="#dashboard" class="active"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z" /></svg></span>Dashboard</a>
+          <a href="#data-mahasiswa"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8" /></svg></span>Data Mahasiswa</a>
+          <a href="#data-dosen"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8M22 21v-2a4 4 0 0 0-3-3.87" /></svg></span>Data Dosen</a>
+          <a href="#mata-kuliah"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5" /></svg></span>Mata Kuliah &amp; Jadwal</a>
+          <a href="#tahun-akademik"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg></span>Tahun Akademik</a>
+          <a href="#rekap-absensi"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V4M4 20h17M8 16l4-5 3 2 5-7" /></svg></span>Rekap Absensi</a>
+          <a href="#informasi"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5" /></svg></span>Pengumuman</a>
+          <a href="#pengaturan"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.42 1.42-.06-.06A1.7 1.7 0 0 0 16.44 18a1.7 1.7 0 0 0-1 .6l-.4.1H11l-.4-.1a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-1.42-1.42.06-.06A1.7 1.7 0 0 0 6.6 15a1.7 1.7 0 0 0-.6-1l-.1-.4V11l.1-.4a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.42-1.42.06.06A1.7 1.7 0 0 0 9.56 6a1.7 1.7 0 0 0 1-.6l.4-.1H15l.4.1a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.42 1.42-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 .6 1l.1.4V13l-.1.4a1.7 1.7 0 0 0-.6 1z" /></svg></span>Pengaturan</a>
+          <a href="#pesan-bantuan"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v12H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg></span>Pesan Bantuan <span id="admin-chat-unread" class="ak-badge" hidden>0</span></a>
+        </nav>
+        <div class="sidebar-user"><span class="avatar" aria-hidden="true">A</span><div class="sidebar-user-copy"><strong id="profile-name">Admin</strong><small id="profile-info">Memuat profil...</small></div><button class="nav-logout" type="button" data-logout>Keluar</button></div>
+      </aside>
+      <div class="dashboard-main">
+        <main class="content" id="dashboard">
+          <div class="dashboard-view" data-view="dashboard">
+            <section class="hero"><div><p class="eyebrow">Portal admin</p><h1>Selamat datang</h1><p class="profile-status" id="profile-status" role="status"></p></div><div class="status"><span>Akses</span><strong>Admin</strong><small>Sistem Absensi</small></div></section>
+            <section class="stats"><article class="card highlight"><span>Mahasiswa</span><strong>—</strong><small>Data terdaftar</small></article><article class="card"><span>Dosen</span><strong>—</strong><small>Akun dosen</small><small>Menunggu persetujuan: <span id="dosen-menunggu-count">—</span></small></article><article class="card"><span>Kelas</span><strong>—</strong><small>Jadwal aktif</small></article></section>
+            <p id="admin-dashboard-state" class="ak-state" role="status"></p>
+            <section class="ak-admin-dashboard-charts" aria-label="Ringkasan distribusi">
+              <article class="info-card"><h2>Distribusi Mahasiswa</h2><div class="ak-admin-donut-layout"><div id="admin-mahasiswa-donut"></div><div id="admin-mahasiswa-legend" class="ak-admin-donut-legend"></div></div></article>
+              <article class="info-card"><h2>Distribusi Dosen</h2><div class="ak-admin-donut-layout"><div id="admin-dosen-donut"></div><div id="admin-dosen-legend" class="ak-admin-donut-legend"></div></div></article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="data-mahasiswa" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Data Mahasiswa</h2>
+              <form id="mahasiswa-form" class="ak-form">
+                <label>NIM<input name="nim" maxlength="30" required /></label>
+                <label>Nama lengkap<input name="nama_lengkap" maxlength="150" required /></label>
+                <label>Program studi<input name="prodi" maxlength="100" required /></label>
+                <label>Semester<input name="semester" type="number" min="1" max="14" required /></label>
+                <label>Provinsi asal<select name="provinsi" required disabled><option value="">Memuat provinsi...</option></select></label>
+                <label>Kota / Kabupaten asal<select name="kota" required disabled><option value="">Pilih kota/kabupaten</option></select></label>
+                <label>Kecamatan asal<select name="kecamatan" required disabled><option value="">Pilih kecamatan</option></select></label>
+                <label>Kelurahan / Desa asal<select name="kelurahan" required disabled><option value="">Pilih kelurahan/desa</option></select></label>
+                <label>Username<input name="username" maxlength="100" autocomplete="username" required /></label>
+                <label>Kata sandi<input name="password" type="password" minlength="8" maxlength="255" autocomplete="new-password" required /></label>
+                <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Tambah mahasiswa</button><button id="mahasiswa-reset" class="ak-secondary-button" type="reset">Bersihkan</button></div>
+              </form>
+              <p class="ak-notice">Mahasiswa merekam wajah sendiri saat login pertama. Akun tanpa data wajah tetap dapat menggunakan mode QR.</p>
+              <div class="ak-filter"><label>Cari<input id="mahasiswa-cari" type="search" placeholder="NIM, nama, atau username" /></label><button id="mahasiswa-cari-button" class="ak-secondary-button" type="button">Cari</button></div>
+              <p id="mahasiswa-state" class="ak-state" role="status"></p>
+              <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>NIM</th><th>Nama</th><th>Prodi</th><th>Semester</th><th>Username</th><th>Wajah</th><th>Aksi</th></tr></thead><tbody id="mahasiswa-list"></tbody></table></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="data-dosen" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Data Dosen</h2>
+              <div class="ak-filter">
+                <label>Cari<input id="dosen-cari" type="search" placeholder="NIDN, nama, atau username" /></label>
+                <label>Filter status
+                  <select id="dosen-status-filter">
+                    <option value="">Semua status</option>
+                    <option value="Menunggu">Menunggu</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Ditolak">Ditolak</option>
+                  </select>
+                </label>
+              </div>
+              <form id="dosen-form" class="ak-form">
+                <input name="id_dosen" type="hidden" />
+                <label>NIDN<input name="nidn" maxlength="30" required /></label>
+                <label>Nama lengkap<input name="nama_lengkap" maxlength="150" required /></label>
+                <label>Program studi<input name="prodi" maxlength="100" required /></label>
+                <label>Provinsi asal<select name="provinsi" required disabled><option value="">Memuat provinsi...</option></select></label>
+                <label>Kota / Kabupaten asal<select name="kota" required disabled><option value="">Pilih kota/kabupaten</option></select></label>
+                <label>Kecamatan asal<select name="kecamatan" required disabled><option value="">Pilih kecamatan</option></select></label>
+                <label>Kelurahan / Desa asal<select name="kelurahan" required disabled><option value="">Pilih kelurahan/desa</option></select></label>
+                <label>Username<input name="username" maxlength="100" required /></label>
+                <label>Password baru<input name="password" type="password" minlength="8" placeholder="Kosongkan saat mengubah" /></label>
+                <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan dosen</button><button id="dosen-reset" class="ak-secondary-button" type="button">Batal</button></div>
+              </form>
+              <p id="dosen-state" class="ak-state" role="status"></p>
+              <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>NIDN</th><th>Nama</th><th>Prodi</th><th>Username</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="dosen-list"></tbody></table></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="mata-kuliah" hidden>
+            <section class="info-grid">
+              <article class="info-card ak-page-wide">
+                <h2>Mata Kuliah</h2>
+                <form id="mata-form" class="ak-form">
+                  <input name="id_mata_kuliah" type="hidden" />
+                  <label>Kode<input name="kode" maxlength="20" required /></label>
+                  <label>Nama mata kuliah<input name="nama" maxlength="150" required /></label>
+                  <label>SKS<input name="sks" type="number" min="1" max="12" required /></label>
+                  <label>Semester (SMT)<input name="semester" type="number" min="1" max="14" required /></label>
+                  <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan</button><button id="mata-reset" class="ak-secondary-button" type="button">Batal</button></div>
+                </form>
+                <p id="mata-state" class="ak-state" role="status"></p>
+                <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>Kode</th><th>Nama</th><th>SKS</th><th>SMT</th><th>Aksi</th></tr></thead><tbody id="mata-list"></tbody></table></div>
+              </article>
+              <article class="info-card ak-page-wide">
+                <h2>Kelas dan Jadwal</h2>
+                <form id="kelas-form" class="ak-form">
+                  <input name="id_kelas" type="hidden" />
+                  <label>Mata kuliah<select name="id_mata_kuliah" required></select></label>
+                  <label>Tahun akademik<select name="id_tahun_akademik" required></select></label>
+                  <label>Dosen 1<select name="id_dosen_1" required></select></label>
+                  <label>Dosen 2 (opsional)<select name="id_dosen_2"><option value="">Tanpa dosen kedua</option></select></label>
+                  <label>Nama kelas<input name="nama_kelas" maxlength="30" required /></label>
+                  <label>Hari<select name="hari" required><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option></select></label>
+                  <label>Jam mulai<input name="jam_mulai" type="time" required /></label>
+                  <label>Jam selesai<input name="jam_selesai" type="time" required /></label>
+                  <label>Ruangan<input name="ruangan" maxlength="50" required /></label>
+                  <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan kelas</button><button id="kelas-reset" class="ak-secondary-button" type="button">Batal</button></div>
+                </form>
+                <p id="kelas-state" class="ak-state" role="status"></p>
+                <div class="ak-filter"><label>Pilih kelas untuk peserta<select id="peserta-kelas"><option value="">Pilih kelas</option></select></label></div>
+                <div id="peserta-options" class="peserta-options"></div>
+                <button id="peserta-simpan" class="ak-secondary-button" type="button" disabled>Simpan peserta</button>
+                <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>Mata kuliah</th><th>SMT</th><th>Kelas</th><th>Jadwal</th><th>Tim Pengajar</th><th>Peserta</th><th>Aksi</th></tr></thead><tbody id="kelas-list"></tbody></table></div>
+              </article>
+            </section>
+          </div>
+          <div class="dashboard-view" data-view="tahun-akademik" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Tahun Akademik</h2>
+              <form id="tahun-form" class="ak-form">
+                <input name="id_tahun_akademik" type="hidden" />
+                <label>Tahun<input name="tahun" maxlength="9" placeholder="2026/2027" required /></label>
+                <label>Semester<select name="semester"><option>Ganjil</option><option>Genap</option></select></label>
+                <label class="remember-row"><input name="aktif" type="checkbox" /><span>Aktifkan sebagai tahun akademik aktif</span></label>
+                <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan tahun</button><button id="tahun-reset" class="ak-secondary-button" type="reset">Batal</button></div>
+              </form>
+              <p id="tahun-state" class="ak-state" role="status"></p>
+              <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>Tahun</th><th>Semester</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="tahun-list"></tbody></table></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="rekap-absensi" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Rekap Absensi</h2>
+              <div class="ak-filter"><label>Mata kuliah<select id="admin-rekap-mata-kuliah"><option value="">Pilih mata kuliah</option></select></label><label>Kelas<select id="admin-rekap-kelas" disabled><option value="">Pilih kelas</option></select></label><label>Pertemuan<select id="admin-rekap-pertemuan" disabled><option value="">Pilih pertemuan</option></select></label><button id="admin-rekap-export" class="ak-secondary-button" type="button" disabled>Ekspor CSV</button></div>
+              <p id="admin-rekap-state" class="ak-state" role="status"></p>
+              <section id="admin-rekap-trend" class="ak-admin-trend" aria-label="Tren kehadiran"></section>
+              <div class="ak-table-wrap"><table class="ak-table"><thead><tr><th>NIM</th><th>Nama</th><th>Status</th><th>Metode</th><th>Waktu Scan</th></tr></thead><tbody id="admin-rekap-list"></tbody></table></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="informasi" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Pengumuman</h2>
+              <form id="pengumuman-form" class="ak-form">
+                <input name="id_pengumuman" type="hidden" />
+                <label class="ak-form-wide">Judul<input name="judul" maxlength="150" required /></label>
+                <label class="ak-form-wide">Isi<textarea name="isi" rows="5" required></textarea></label>
+                <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan pengumuman</button><button id="pengumuman-reset" class="ak-secondary-button" type="button">Batal</button></div>
+              </form>
+              <p id="pengumuman-state" class="ak-state" role="status"></p>
+              <div id="pengumuman-list"></div>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="pengaturan" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Pengaturan</h2>
+              <form id="pengaturan-form" class="ak-form">
+                <label>Ambang wajah<input name="ambang_wajah" type="number" min="0.1" max="2" step="0.01" required /></label>
+                <label>Batas tepat waktu (menit)<input name="batas_tepat_menit" type="number" min="1" max="180" required /></label>
+                <div class="ak-form-actions ak-form-wide"><button class="ak-secondary-button" type="submit">Simpan pengaturan</button></div>
+              </form>
+              <p id="pengaturan-state" class="ak-state" role="status"></p>
+            </article></section>
+          </div>
+          <div class="dashboard-view" data-view="pesan-bantuan" hidden>
+            <section class="info-grid"><article class="info-card ak-page-wide">
+              <h2>Pesan Bantuan (Mahasiswa &amp; Dosen)</h2>
+              <div class="ak-admin-chat-layout">
+                <aside class="ak-admin-conversations" aria-label="Daftar percakapan">
+                  <p id="admin-chat-list-state" class="ak-state" role="status">Memuat percakapan...</p>
+                  <div id="admin-chat-conversations"></div>
+                </aside>
+                <section class="ak-admin-chat-thread" aria-label="Percakapan terpilih">
+                  <h3 id="admin-chat-title">Pilih percakapan</h3>
+                  <div id="admin-chat-messages" class="ak-chat-messages"><p class="ak-state">Pilih mahasiswa atau dosen untuk membaca pesan.</p></div>
+                  <form id="admin-chat-form" class="ak-chat-form"><label class="ak-chat-attach" for="admin-chat-file" title="Lampirkan file atau screenshot" aria-label="Lampirkan file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><input id="admin-chat-file" name="lampiran" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip" class="ak-sr-only" disabled /></label><label class="ak-sr-only" for="admin-chat-input">Tulis balasan</label><textarea id="admin-chat-input" maxlength="1000" rows="2" placeholder="Tulis balasan..." disabled></textarea><button type="submit" disabled>Kirim</button></form>
+                  <div id="admin-chat-file-preview" class="ak-chat-file-preview" hidden><span id="admin-chat-file-name"></span><button id="admin-chat-file-clear" type="button" aria-label="Hapus lampiran">×</button></div>
+                  <p id="admin-chat-state" class="ak-chat-state" role="status"></p>
+                </section>
+              </div>
+            </article></section>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Daftar Dosen | Sistem Absensi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="color.css" />
+  </head>
+  <body class="login-body">
+    <main class="registration-page">
+      <section class="login-modal registration-card">
+        <div class="login-copy">
+          <p class="eyebrow">Pendaftaran mandiri</p>
+          <h1>Daftar Dosen</h1>
+          <p class="modal-subtitle">Akun dapat digunakan setelah disetujui admin.</p>
+        </div>
+
+        <form class="login-form" id="lecturerRegistrationForm">
+          <label for="nidn">NIDN</label>
+          <input id="nidn" name="nidn" type="text" maxlength="30" autocomplete="off" required />
+          <label for="nama_lengkap">Nama lengkap</label>
+          <input id="nama_lengkap" name="nama_lengkap" type="text" maxlength="150" autocomplete="name" required />
+          <label for="prodi">Program studi</label>
+          <input id="prodi" name="prodi" type="text" maxlength="100" required />
+          <label for="provinsi">Provinsi asal</label>
+          <select id="provinsi" name="provinsi" required disabled><option value="">Memuat provinsi...</option></select>
+          <label for="kota">Kota / Kabupaten asal</label>
+          <select id="kota" name="kota" required disabled><option value="">Pilih kota/kabupaten</option></select>
+          <label for="kecamatan">Kecamatan asal</label>
+          <select id="kecamatan" name="kecamatan" required disabled><option value="">Pilih kecamatan</option></select>
+          <label for="kelurahan">Kelurahan / Desa asal</label>
+          <select id="kelurahan" name="kelurahan" required disabled><option value="">Pilih kelurahan/desa</option></select>
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" maxlength="100" autocomplete="username" required />
+          <label for="password">Kata sandi</label>
+          <div class="password-field">
+            <input id="password" name="password" type="password" minlength="8" maxlength="255" autocomplete="new-password" required />
+            <button class="password-toggle" id="lecturerPasswordToggle" type="button" aria-label="Tampilkan kata sandi" aria-pressed="false">&bull;</button>
+          </div>
+          <button id="submitLecturerRegistration" type="submit">Daftar Akun Dosen</button>
+          <p class="login-message" id="lecturerRegistrationMessage" role="status"></p>
+        </form>
+        <a class="forgot-password" href="index.html">Kembali ke halaman masuk</a>
+      </section>
+    </main>
+    <script src="assets/wilayah.js"></script>
+    <script src="daftar_dosen.js"></script>
+  </body>
+</html>
